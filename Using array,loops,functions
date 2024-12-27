@@ -1,0 +1,143 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_NAME_LEN 50
+#define MAX_AGE 150
+
+// Structure to store a person's data
+struct Person {
+    char name[MAX_NAME_LEN];
+    int age;
+};
+
+// Function to input person data
+void inputPersonData(struct Person *p) {
+    printf("Enter name: ");
+    fgets(p->name, MAX_NAME_LEN, stdin);
+    p->name[strcspn(p->name, "\n")] = 0;  // Remove trailing newline
+
+    do {
+        printf("Enter age (1-150): ");
+        scanf("%d", &p->age);
+        if (p->age < 1 || p->age > MAX_AGE) {
+            printf("Invalid age. Please enter again.\n");
+        }
+    } while (p->age < 1 || p->age > MAX_AGE);
+}
+
+// Function to display person data
+void displayPersonData(const struct Person *p) {
+    printf("\nName: %s\n", p->name);
+    printf("Age: %d\n", p->age);
+}
+
+// Function to check if a person is eligible to vote
+int isEligibleToVote(int age) {
+    return age >= 18;
+}
+
+// Function to print the eligibility status
+void printEligibility(int age) {
+    if (isEligibleToVote(age)) {
+        printf("You are eligible to vote.\n");
+    } else {
+        printf("You are not eligible to vote.\n");
+    }
+}
+
+// Function to find the largest of three numbers
+int largestOfThree(int a, int b, int c) {
+    if (a > b && a > c) return a;
+    if (b > a && b > c) return b;
+    return c;
+}
+
+// Function to sort an array using bubble sort
+void bubbleSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+
+// Function to print an array
+void printArray(int arr[], int n) {
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+// Function to find the factorial of a number
+long long factorial(int n) {
+    if (n <= 1) return 1;
+    return n * factorial(n - 1);
+}
+
+// Function to check if a number is prime
+int isPrime(int num) {
+    if (num <= 1) return 0;
+    for (int i = 2; i <= num / 2; i++) {
+        if (num % i == 0) return 0;
+    }
+    return 1;
+}
+
+// Function to generate Fibonacci sequence
+void generateFibonacci(int n) {
+    int a = 0, b = 1, next;
+    for (int i = 0; i < n; i++) {
+        printf("%d ", a);
+        next = a + b;
+        a = b;
+        b = next;
+    }
+    printf("\n");
+}
+
+// Main function
+int main() {
+    // Example 1: Handling person data
+    struct Person person1;
+    inputPersonData(&person1);
+    displayPersonData(&person1);
+    printEligibility(person1.age);
+
+    // Example 2: Find the largest of three numbers
+    int a = 10, b = 20, c = 30;
+    printf("\nLargest of %d, %d, %d is: %d\n", a, b, c, largestOfThree(a, b, c));
+
+    // Example 3: Sorting an array
+    int arr[] = {5, 3, 8, 6, 2};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    printf("\nBefore sorting: ");
+    printArray(arr, n);
+    bubbleSort(arr, n);
+    printf("After sorting: ");
+    printArray(arr, n);
+
+    // Example 4: Factorial calculation
+    int num = 5;
+    printf("\nFactorial of %d is: %lld\n", num, factorial(num));
+
+    // Example 5: Prime number check
+    num = 7;
+    if (isPrime(num)) {
+        printf("\n%d is a prime number.\n", num);
+    } else {
+        printf("\n%d is not a prime number.\n", num);
+    }
+
+    // Example 6: Fibonacci sequence generation
+    int n_terms = 10;
+    printf("\nFirst %d terms of Fibonacci sequence: ", n_terms);
+    generateFibonacci(n_terms);
+
+    return 0;
+}
